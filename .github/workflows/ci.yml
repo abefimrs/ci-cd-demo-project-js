@@ -16,7 +16,7 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-      
+
     - name: Set up Node.js  
       uses: actions/setup-node@v4
       with:
@@ -24,7 +24,7 @@ jobs:
         cache: 'npm'
 
     - name: Run tests
-      run: npm test
+      run: npm test -- --watchAll=false
 
     - name: Build project
       run: npm run build --if-present
