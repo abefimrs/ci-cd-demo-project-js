@@ -43,7 +43,7 @@ jobs:
             echo "$SSH_PRIVATE_KEY" > private_key
             chmod 600 private_key
 
-      - name: Test SSH Connection
+      - name: Test SSH Connection Again
         run: ssh -i private_key -o StrictHostKeyChecking=no root@103.108.140.185 "echo Connected successfully!"
 
       - name: Clean Up
