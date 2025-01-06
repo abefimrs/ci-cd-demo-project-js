@@ -14,17 +14,17 @@ jobs:
 
       - name: Setup SSH Key with Passphrase
         run: |
-          # Save the private key and set proper permissions
-          echo "$SSH_PRIVATE_KEY" > private_key
+          # Save private key with proper newlines
+          echo "$SSH_PRIVATE_KEY" | tr -d '\r' | sed 's/\\n/\n/g' > private_key
           chmod 600 private_key
-          
+      
           # Start the SSH agent
           eval "$(ssh-agent -s)"
-          
-          # Add the private key to the agent using the passphrase
+      
+          # Add the private key with passphrase handling
           echo "$SSH_PASSPHRASE" | ssh-add private_key <<< "$SSH_PASSPHRASE"
           
-          # Verify the key is added
+          # Verify key addition
           ssh-add -l
 
       - name: Test SSH Connection
