@@ -7,31 +7,44 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+      #- name: Checkout Repository
+      #  uses: actions/checkout@v3
 
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
+      #- name: Install Node.js
+      #  uses: actions/setup-node@v3
+      #  with:
+      #    node-version: '20'
 
-      - name: Install Dependencies
-        run: npm install
+      #- name: Install Dependencies
+      #  run: npm install
 
-      - name: Build React App
-        run: npm run build
+      #- name: Build React App
+      #  run: npm run build
 
-      - name: Deploy to AlmaLinux Server via SCP
+      #- name: Deploy to AlmaLinux Server via SCP
+      #  env:
+      #    SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      #    SERVER_IP: 103.108.140.185
+      #    SERVER_USER: root
+      #  run: |
+      #    echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
+      #    scp -o StrictHostKeyChecking=no -i private_key -r build/* $SERVER_USER@$SERVER_IP:/var/www/react-app
+
+      - name: Setup SSH Key
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SERVER_IP: 103.108.140.185
           SERVER_USER: root
+      
         run: |
-          echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
-          scp -o StrictHostKeyChecking=no -i private_key -r build/* $SERVER_USER@$SERVER_IP:/var/www/react-app
+            echo "$SSH_PRIVATE_KEY" > private_key
+            chmod 600 private_key
+
+      - name: Test SSH Connection
+        run: ssh -i private_key -o StrictHostKeyChecking=no root@103.108.140.185 "echo Connected successfully!"
 
       - name: Clean Up
         run: rm -f private_key
