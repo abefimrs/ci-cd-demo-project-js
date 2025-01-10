@@ -1,0 +1,64 @@
+name: CI/CD Pipeline-Testing
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  ci:
+    name: Build and Test
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Tests
+        run: npm test
+
+      - name: Build Project
+        run: npm run build
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: react-build
+          path: build/
+          retention-days: 7
+
+  cd:
+    name: Deploy to Server -Testing
+    runs-on: ubuntu-22.04
+    needs: ci
+    if: success()
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: react-build
+          path: build/
+
+      - name: Decode SSH Private Key
+        run: |
+          echo "${{ secrets.VPS_SERVER_SSH_KEY }}" | base64 --decode > /tmp/ssh_key
+          chmod 600 /tmp/ssh_key
+
+      - name: Deploy Build to Server using rsync
+        run: |
+          rsync -avz -e "ssh -i /tmp/ssh_key -o StrictHostKeyChecking=no" ./build/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/var/www/react-app/
+
+      - name: Restart Server (Optional)
+        run: |
+          ssh -i /tmp/ssh_key -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} \
+          "sudo systemctl restart nginx"
