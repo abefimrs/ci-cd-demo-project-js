@@ -49,7 +49,7 @@ jobs:
           name: react-build
           path: build/
 
-      - name: Decode SSH Private Key
+      - name: Decode SSH Private Key 
         run: |
           echo "${{ secrets.VPS_SERVER_SSH_KEY }}" | base64 --decode > /tmp/ssh_key
           chmod 600 /tmp/ssh_key
