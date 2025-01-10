@@ -7,7 +7,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          BFS Fled away
+          Batch 4 React project using Docker
         </p>
         <a
           className="App-link"
