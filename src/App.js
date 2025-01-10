@@ -7,7 +7,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Batch 4 React project using Docker
+          Batch 4 React project | CI/CD using Githu Action!
         </p>
         <a
           className="App-link"

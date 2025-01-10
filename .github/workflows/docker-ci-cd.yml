@@ -1,9 +1,10 @@
 name: CI/CD Pipeline with Docker and VM
 
 on:
-  push:
-    branches:
-      - main
+  #push:
+  #  branches:
+  #    - main
+  workflow_dispatch:
 
 jobs:
   ci:
