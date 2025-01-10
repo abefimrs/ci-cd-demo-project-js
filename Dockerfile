@@ -2,7 +2,7 @@
 FROM node:20 as build
 
 # Set the working directory
-WORKDIR /app
+WORKDIR /MY-REACT-APP
 
 # Copy package.json and install dependencies
 COPY package*.json ./
@@ -14,7 +14,7 @@ RUN npm run build
 
 # Use an NGINX image to serve the built React files
 FROM nginx:stable-alpine
-COPY --from=build /app/build /usr/share/nginx/html
+COPY --from=build /MY-REACT-APP/build /usr/share/nginx/html
 
 # Expose port 80
 EXPOSE 80
