@@ -27,21 +27,21 @@ jobs:
           docker build -t ${{ secrets.DOCKER_USERNAME }}/react-app:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/react-app:latest
 
-#   cd:
-#     name: Deploy to VM Server
-#     runs-on: ubuntu-22.04
-#     needs: ci
-#     steps:
-#       - name: Decode SSH Private Key
-#         run: |
-#           echo "${{ secrets.VPS_SERVER_SSH_KEY }}" | base64 --decode > /tmp/ssh_key
-#           chmod 600 /tmp/ssh_key
+  cd:
+    name: Deploy to VM Server
+    runs-on: ubuntu-22.04
+    needs: ci
+    steps:
+      - name: Decode SSH Private Key
+        run: |
+          echo "${{ secrets.VPS_SERVER_SSH_KEY }}" | base64 --decode > /tmp/ssh_key
+          chmod 600 /tmp/ssh_key
 
-#       - name: Deploy and Run Docker Container on VM
-#         run: |
-#           ssh -i /tmp/ssh_key -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-#             docker pull ${{ secrets.DOCKER_USERNAME }}/react-app:latest
-#             docker stop react-app-container || true
-#             docker rm react-app-container || true
-#             docker run -d -p 80:80 --name react-app-container ${{ secrets.DOCKER_USERNAME }}/react-app:latest
-#           EOF
+      - name: Deploy and Run Docker Container on VM
+        run: |
+          ssh -i /tmp/ssh_key -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
+            docker pull ${{ secrets.DOCKER_USERNAME }}/react-app:latest
+            docker stop react-app-container || true
+            docker rm react-app-container || true
+            docker run -d -p 80:80 --name react-app-container ${{ secrets.DOCKER_USERNAME }}/react-app:latest
+          EOF
