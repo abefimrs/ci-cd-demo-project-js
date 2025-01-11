@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import React from 'react';
 
 function App() {
   return (
@@ -7,7 +8,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Batch 4 React project | CI/CD using Githu Action!
+          Batch 4 React project | CI/CD using Githu Action! | Checking some stuff
         </p>
         <a
           className="App-link"
