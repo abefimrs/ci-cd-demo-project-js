@@ -9,6 +9,7 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
         <p>
          We are watching github action [ Jan 11 2025 ]
+         time();
         </p>
         <a
           className="App-link"
