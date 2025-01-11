@@ -4,6 +4,8 @@ const name = "John"   // ❌ Missing semicolon and extra spaces
 
 console.log("Hello, " + name)   // ❌ String concatenation instead of template literals, missing semicolon
 
+
+
 const sum = (a, b) => {
   return a + b; // ❌ Unused variable warning and unnecessary return statement
 }
