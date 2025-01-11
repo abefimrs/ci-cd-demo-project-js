@@ -8,7 +8,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Batch 4 React project | CI/CD using Githu Action! | Checking some stuff
+         We are watching github action [ Jan 11 2025 ]
         </p>
         <a
           className="App-link"
