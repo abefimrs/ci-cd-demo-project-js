@@ -16,5 +16,7 @@ let unusedVar = 42  // ❌ Unused variable and missing semicolon
 
 function oldStyleFunction() { // ❌ Function declared but never used
     console.log("This is an old-style function");
+
+
 }
 
