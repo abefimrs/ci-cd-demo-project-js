@@ -35,31 +35,31 @@ jobs:
           path: build/
           retention-days: 7
 
-  cd:
-    name: Deploy to Server -Testing
-    runs-on: ubuntu-22.04
-    needs: ci
-    if: success()
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+  #cd:
+    #name: Deploy to Server -Testing
+    #runs-on: ubuntu-22.04
+    #needs: ci
+    #if: success()
+    #steps:
+      #- name: Checkout Code
+        #uses: actions/checkout@v4
 
-      - name: Download Build Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: react-build
-          path: build/
+      #- name: Download Build Artifact
+        #uses: actions/download-artifact@v4
+        #with:
+          #name: react-build
+          #path: build/
 
-      - name: Decode SSH Private Key 
-        run: |
-          echo "${{ secrets.VPS_SERVER_SSH_KEY }}" | base64 --decode > /tmp/ssh_key
-          chmod 600 /tmp/ssh_key
+      #- name: Decode SSH Private Key 
+        #run: |
+          #echo "${{ secrets.VPS_SERVER_SSH_KEY }}" | base64 --decode > /tmp/ssh_key
+          #chmod 600 /tmp/ssh_key
 
-      - name: Deploy Build to Server using rsync
-        run: |
-          rsync -avz -e "ssh -i /tmp/ssh_key -o StrictHostKeyChecking=no" ./build/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/var/www/react-app/
+      #- name: Deploy Build to Server using rsync
+        #run: |
+          #rsync -avz -e "ssh -i /tmp/ssh_key -o StrictHostKeyChecking=no" ./build/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/var/www/react-app/
 
-      - name: Restart Server (Optional)
-        run: |
-          ssh -i /tmp/ssh_key -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} \
-          "sudo systemctl restart nginx"
+      #- name: Restart Server (Optional)
+        #run: |
+          #ssh -i /tmp/ssh_key -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} \
+          #"sudo systemctl restart nginx"
